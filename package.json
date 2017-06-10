@@ -1,0 +1,10 @@
+{
+  "name": "robo-ampersand",
+  "version": "0.0.1",
+  "description": "backend for a line bot that Does Things for ampsersand",
+  "main": "index.js",
+  "dependencies": {
+    "@line/bot-sdk": "^1.0.0",
+    "express": "^4.15.2"
+  }
+}
