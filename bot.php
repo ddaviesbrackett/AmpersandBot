@@ -27,13 +27,13 @@ foreach ($client->parseEvents() as $event) {
             $message = $event['message'];
             switch ($message['type']) {
                 case 'text':
-                    if($message['text'] == '!pvelist') {
+                    if($message['text'][0] == '!') {
                         $client->replyMessage([
                             'replyToken' => $event['replyToken'],
                             'messages' => [
                                 [
                                     'type' => 'text',
-                                    'text' => `php sheetclient.php`
+                                    'text' => shell_exec("php sheetclient.php \\" . $message['text'])
                                 ]
                             ]
                         ]);

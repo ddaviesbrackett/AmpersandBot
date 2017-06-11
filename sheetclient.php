@@ -75,15 +75,32 @@ $client = getClient();
 $service = new Google_Service_Sheets($client);
 
 $spreadsheetId = '1dVKnX-UWp7AD5CBubj7_rpeM_swsfwKgu0zRRAIFcIE';
-$range = 'Tally!A2:A';
-$response = $service->spreadsheets_values->get($spreadsheetId, $range);
-$values = $response->getValues();
-
-if (count($values) == 0) {
-  print "No data found.\n";
-} else {
-  foreach ($values as $row) {
-    printf("%s\n", $row[0]);
-  }
+$range = '';
+switch ($argv[1]) {
+  case '!pvelist':
+    $range = 'Tally!A2:A';
+    break;
+  case '!pvemovelist':
+    $range = 'Tally!C2:C';
+    break;
+  case '!pvecall':
+    $range = 'Instructions!A2';
+    break;
+  default:
+    break;
 }
 
+if (!empty($range)) {
+  $response = $service->spreadsheets_values->get($spreadsheetId, $range);
+  $values = $response->getValues();
+
+  if (count($values) == 0) {
+    print "No data found.\n";
+  } else {
+    foreach ($values as $row) {
+      printf("%s\n", $row[0]);
+    }
+  }
+} else {
+  print "nuthin doin!\n";
+}
