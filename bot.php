@@ -14,10 +14,12 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-require_once('./LINEBotTiny.php');
+require_once('./vendor/LINEBotTiny.php');
 require_once('./config.php');
 $channelAccessToken = $CONF['AMPERBOT_CHANNEL_ACCESS'];
 $channelSecret = $CONF['AMPERBOT_CHANNEL_SECRET'];
+
+
 $client = new LINEBotTiny($channelAccessToken, $channelSecret);
 foreach ($client->parseEvents() as $event) {
     switch ($event['type']) {
@@ -25,23 +27,23 @@ foreach ($client->parseEvents() as $event) {
             $message = $event['message'];
             switch ($message['type']) {
                 case 'text':
-                    $client->replyMessage(array(
-                        'replyToken' => $event['replyToken'],
-                        'messages' => array(
-                            array(
-                                'type' => 'text',
-                                'text' => $message['text']
-                            )
-                        )
-                    ));
+                    if($message['text'] == '!pvelist') {
+                        $client->replyMessage([
+                            'replyToken' => $event['replyToken'],
+                            'messages' => [
+                                [
+                                    'type' => 'text',
+                                    'text' => $message['text'] //this should pull from the google doc
+                                ]
+                            ]
+                        ]);
+                    }
                     break;
                 default:
-                    //error_log("Unsupporeted message type: " . $message['type']);
                     break;
             }
             break;
         default:
-            //error_log("Unsupporeted event type: " . $event['type']);
             break;
     }
 };
