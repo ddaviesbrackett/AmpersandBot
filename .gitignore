@@ -49,3 +49,6 @@ jspm_packages
 #vendor dir (dealt with elsewhere)
 vendor
 
+#secrets
+client_secret.json
+
