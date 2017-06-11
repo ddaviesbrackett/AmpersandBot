@@ -51,4 +51,6 @@ vendor
 
 #secrets
 client_secret.json
+config.php
+
 
