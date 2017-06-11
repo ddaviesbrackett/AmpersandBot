@@ -33,7 +33,7 @@ foreach ($client->parseEvents() as $event) {
                             'messages' => [
                                 [
                                     'type' => 'text',
-                                    'text' => $message['text'] //this should pull from the google doc
+                                    'text' => `php sheetclient.php`
                                 ]
                             ]
                         ]);
