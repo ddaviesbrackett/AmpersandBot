@@ -43,6 +43,10 @@ foreach ($client->parseEvents() as $event) {
                     break;
             }
             break;
+        case 'join':
+            $source = $event['source'];
+            error_log('joined somewhere, type: '.$source['type'].', groupId:'.$source['groupId'].'');
+            break;
         default:
             break;
     }

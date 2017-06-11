@@ -92,7 +92,26 @@ class LINEBotTiny
         $response = file_get_contents('https://api.line.me/v2/bot/message/reply', false, $context);
         if (strpos($http_response_header[0], '200') === false) {
             http_response_code(500);
-            error_log("Request failed: header code: " . $http_response_header[0] . "response:" . $response);
+            error_log("reply Request failed: header code: " . $http_response_header[0] . "response:" . $response);
+        }
+    }
+    public function pushMessage($message)
+    {
+        $header = array(
+            "Content-Type: application/json",
+            'Authorization: Bearer ' . $this->channelAccessToken,
+        );
+        $context = stream_context_create(array(
+            "http" => array(
+                "method" => "POST",
+                "header" => implode("\r\n", $header),
+                "content" => json_encode($message),
+            ),
+        ));
+        $response = file_get_contents('https://api.line.me/v2/bot/message/push', false, $context);
+        if (strpos($http_response_header[0], '200') === false) {
+            http_response_code(500);
+            error_log("push Request failed: header code: " . $http_response_header[0] . "response:" . $response);
         }
     }
     private function sign($body)
