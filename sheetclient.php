@@ -102,5 +102,5 @@ if (!empty($range)) {
     }
   }
 } else {
-  print "nuthin doin!\n";
+  print "available !commands:\n!pvelist\n!pvemovelist\n!pvecall\n\nData is pulled from the Ampersand PVE signup google sheet, make changes to the data there.";
 }
