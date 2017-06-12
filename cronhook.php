@@ -7,7 +7,7 @@ require_once(__DIR__ . '/config.php');
 use Carbon\Carbon;
 
 if(php_sapi_name() == 'cli') {
-	$end = shell_exec(__DIR__ . "/sheetclient.php !pveend");
+	$end = shell_exec("php " . __DIR__ . "/sheetclient.php !pveend");
 	$endDate = Carbon::createFromFormat('d/m/Y h:i:s', trim($end) . ' 06:00:00', new DateTimeZone('UTC'));
 
 	$diffInHours = $endDate->diffInHours();
@@ -16,17 +16,17 @@ if(php_sapi_name() == 'cli') {
 
 	if( $diffInHours == 36)
 	{
-		$messageText = shell_exec(__DIR__ . "/sheetclient.php !pvecall"); //36h: time for the call
+		$messageText = shell_exec("php " . __DIR__ . "/sheetclient.php !pvecall"); //36h: time for the call
 		$roomId = $CONF['PVE_ROOM_ID'];
 	}
 	else if ($diffInHours < 36 && $diffInHours > 12)
 	{
-		$messageText = shell_exec(__DIR__ . "/sheetclient.php !pvelist"); //inside 36h, outside 12h, publish the tally
+		$messageText = shell_exec("php " . __DIR__ . "/sheetclient.php !pvelist"); //inside 36h, outside 12h, publish the tally
 		$roomId = $CONF['PVE_ROOM_ID'];
 	}
 	else if ($diffInHours == 12)
 	{
-		$messageText = shell_exec(__DIR__ . "/sheetclient.php !pvemovelist"); //12h: time for the move list
+		$messageText = shell_exec("php " . __DIR__ . "/sheetclient.php !pvemovelist"); //12h: time for the move list
 		$roomId = $CONF['PVE_ROOM_ID'];
 	}
 	else if ($diffInHours == -3)
