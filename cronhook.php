@@ -6,7 +6,7 @@ require_once('./config.php');
 
 use Carbon\Carbon;
 
-if(array_key_exists('hideme', $_GET) && $_GET['hideme'] == 'Imaseekrit') {
+if(php_sapi_name() == 'cli') {
 	$end = `php sheetclient.php !pveend`;
 	$endDate = Carbon::createFromFormat('d/m/Y h:i:s', trim($end) . ' 06:00:00', new DateTimeZone('UTC'));
 
