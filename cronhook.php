@@ -12,26 +12,32 @@ if(array_key_exists('hideme', $_GET) && $_GET['hideme'] == 'Imaseekrit') {
 
 	$diffInHours = $endDate->diffInHours();
 	$messageText = "";
+	$roomId = "";
 
 	if( $diffInHours == 36)
 	{
 		$messageText = `php sheetclient.php !pvecall`; //36h: time for the call
+		$roomId = $CONF['PVE_ROOM_ID']
 	}
 	else if ($diffInHours < 36 && $diffInHours > 12)
 	{
 		$messageText = `php sheetclient.php !pvelist`; //inside 36h, outside 12h, publish the tally
+		$roomId = $CONF['PVE_ROOM_ID']
 	}
 	else if ($diffInHours == 12)
 	{
 		$messageText = `php sheetclient.php !pvemovelist`; //12h: time for the move list
+		$roomId = $CONF['PVE_ROOM_ID']
 	}
 	else if ($diffInHours == -3)
 	{
 		$messageText = "PVE rewards are all in (as of 3h ago).  Time to head home, everyone!";
+		$roomId = $CONF['PVE_ROOM_ID']
 	}
 	else if ($diffInHours == -12)
 	{
 		$messageText = "Commanders, time to clean up the spreadsheet for next pve :)";
+		$roomId = $CONF['COMMANDER_ROOM_ID'];
 	}
 
 	if(!empty($messageText))
@@ -42,7 +48,7 @@ if(array_key_exists('hideme', $_GET) && $_GET['hideme'] == 'Imaseekrit') {
 		$client = new LINEBotTiny($channelAccessToken, $channelSecret);
 
 
-		$message = ['to' => $CONF['PVE_ROOM_ID'], 'messages' => [['type' => 'text', 'text' => $messageText]]];
+		$message = ['to' =>$roomId, 'messages' => [['type' => 'text', 'text' => $messageText]]];
 		$client->pushMessage($message);
 	}
 }
