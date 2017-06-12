@@ -75,22 +75,17 @@ $client = getClient();
 $service = new Google_Service_Sheets($client);
 
 $spreadsheetId = '1dVKnX-UWp7AD5CBubj7_rpeM_swsfwKgu0zRRAIFcIE';
-$range = '';
-switch ($argv[1]) {
-  case '!pvelist':
-    $range = 'Tally!A2:A';
-    break;
-  case '!pvemovelist':
-    $range = 'Tally!C2:C';
-    break;
-  case '!pvecall':
-    $range = 'Instructions!A2';
-    break;
-  default:
-    break;
-}
 
-if (!empty($range)) {
+$commandtoRange = [
+  '!pvelist' => 'Tally!A2:A'
+  ,'!pvemovelist' => 'Tally!C2:C'
+  ,'!pvecall' => 'Instructions!A2'
+  ,'!pveend' => 'Tally!E14'
+];
+
+
+if (array_key_exists($argv[1], $commandtoRange)) {
+  $range = $commandtoRange[$argv[1]];
   $response = $service->spreadsheets_values->get($spreadsheetId, $range);
   $values = $response->getValues();
 
@@ -102,5 +97,5 @@ if (!empty($range)) {
     }
   }
 } else {
-  print "available !commands:\n!pvelist\n!pvemovelist\n!pvecall\n\nData is pulled from the Ampersand PVE signup google sheet, make changes to the data there.\n\n";
+  print "available !commands:\n" . implode("\n", array_keys($commandtoRange)) . "\n\nData is pulled from the Ampersand PVE signup google sheet, make changes to the data there.\n\n";
 }
