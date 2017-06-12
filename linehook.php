@@ -18,7 +18,8 @@ foreach ($client->parseEvents() as $event) {
                             'messages' => [
                                 [
                                     'type' => 'text',
-                                    'text' => shell_exec("php sheetclient.php \\" . $message['text'])
+                                    'text' => 'I used to do commands, but now I just send things automatically ;)'
+                                     //'text' => shell_exec("php sheetclient.php \\" . $message['text'])
                                 ]
                             ]
                         ]);
