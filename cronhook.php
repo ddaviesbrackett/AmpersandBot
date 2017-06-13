@@ -53,12 +53,3 @@ if(php_sapi_name() == 'cli') {
 	}
 }
 ?>
-<!doctype html>
-<html>
-<head>
-<title>I listen only to my master</title>
-</head>
-<body>
-	nothing to see here.
-</body>
-</html>
