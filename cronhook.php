@@ -31,12 +31,12 @@ if(php_sapi_name() == 'cli') {
 	}
 	else if ($diffInHours == 3)
 	{
-		$messageText = "PVE rewards are all in (as of 3h ago).  Time to head home, everyone!";
+		$messageText = "PVE rewards are all in (as of 3h ago).  Time to head home, everyone! :)";
 		$roomId = $CONF['PVE_ROOM_ID'];
 	}
 	else if ($diffInHours == 12)
 	{
-		$messageText = "Commanders, time to clean up the spreadsheet for next pve :)";
+		$messageText = "Commanders, time to clean up the spreadsheet and google forms responses for next pve :)";
 		$roomId = $CONF['COMMANDER_ROOM_ID'];
 	}
 
