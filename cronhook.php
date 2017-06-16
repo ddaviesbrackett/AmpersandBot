@@ -10,31 +10,31 @@ if(php_sapi_name() == 'cli') {
 	$end = shell_exec("php " . __DIR__ . "/sheetclient.php !pveend");
 	$endDate = Carbon::createFromFormat('d/m/Y h:i:s', trim($end) . ' 06:00:00', new DateTimeZone('UTC'));
 
-	$diffInHours = $endDate->diffInHours();
+	$diffInHours = $endDate->diffInHours(null/*diff against now*/, false/*give negatives when diff is negative*/);
 	$messageText = "";
 	$roomId = "";
 
-	if( $diffInHours == 36)
+	if( $diffInHours == -36)
 	{
 		$messageText = shell_exec("php " . __DIR__ . "/sheetclient.php !pvecall"); //36h: time for the call
 		$roomId = $CONF['PVE_ROOM_ID'];
 	}
-	else if ($diffInHours < 36 && $diffInHours > 12)
+	else if ($diffInHours > -36 && $diffInHours < -12)
 	{
 		$messageText = shell_exec("php " . __DIR__ . "/sheetclient.php !pvelist"); //inside 36h, outside 12h, publish the tally
 		$roomId = $CONF['PVE_ROOM_ID'];
 	}
-	else if ($diffInHours == 12)
+	else if ($diffInHours == -12)
 	{
 		$messageText = shell_exec("php " . __DIR__ . "/sheetclient.php !pvemovelist"); //12h: time for the move list
 		$roomId = $CONF['PVE_ROOM_ID'];
 	}
-	else if ($diffInHours == -3)
+	else if ($diffInHours == 3)
 	{
 		$messageText = "PVE rewards are all in (as of 3h ago).  Time to head home, everyone!";
 		$roomId = $CONF['PVE_ROOM_ID'];
 	}
-	else if ($diffInHours == -12)
+	else if ($diffInHours == 12)
 	{
 		$messageText = "Commanders, time to clean up the spreadsheet for next pve :)";
 		$roomId = $CONF['COMMANDER_ROOM_ID'];
