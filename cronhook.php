@@ -5,13 +5,23 @@ require_once(__DIR__ . '/vendor/autoload.php');
 require_once(__DIR__ . '/config.php');
 
 use Carbon\Carbon;
+$channelAccessToken = $CONF['AMPERBOT_CHANNEL_ACCESS'];
+$channelSecret = $CONF['AMPERBOT_CHANNEL_SECRET'];
 
-if(php_sapi_name() == 'cli') {
+$client = new LINEBotTiny($channelAccessToken, $channelSecret);
+
+function sendMessage($destination, $msg) {
+	$message = ['to' =>$destination, 'messages' => [['type' => 'text', 'text' => $msg]]];
+	$client->pushMessage($message);
+}
+
+$messageText = "";
+
+if(php_sapi_name() == 'cli' && argv[1] == 'pve') {
 	$end = shell_exec("php " . __DIR__ . "/sheetclient.php !pveend");
 	$endDate = Carbon::createFromFormat('d/m/Y h:i:s', trim($end) . ' 06:00:00', new DateTimeZone('UTC'));
 
 	$diffInHours = $endDate->diffInHours(null/*diff against now*/, false/*give negatives when diff is negative*/);
-	$messageText = "";
 	$roomId = "";
 
 	if( $diffInHours == -36)
@@ -42,14 +52,13 @@ if(php_sapi_name() == 'cli') {
 
 	if(!empty($messageText))
 	{
-		$channelAccessToken = $CONF['AMPERBOT_CHANNEL_ACCESS'];
-		$channelSecret = $CONF['AMPERBOT_CHANNEL_SECRET'];
-
-		$client = new LINEBotTiny($channelAccessToken, $channelSecret);
-
-
-		$message = ['to' =>$roomId, 'messages' => [['type' => 'text', 'text' => $messageText]]];
-		$client->pushMessage($message);
+		sendMessage($roomId, $messageText);
 	}
+}
+
+if(php_sapi_name() == 'cli' && argv[1] == 'pvpscreens') {
+	//nag for screenshots
+	$nagMessageText = 'Screenshots in the albums please folks :) (please ignore if you\'ve already put them in, I\'m not smart enough to know that)';
+	sendMessage( $CONF['COMMANDER_ROOM_ID'], $nagMessageText);
 }
 ?>
