@@ -11,13 +11,14 @@ $channelSecret = $CONF['AMPERBOT_CHANNEL_SECRET'];
 $client = new LINEBotTiny($channelAccessToken, $channelSecret);
 
 function sendMessage($destination, $msg) {
+	global $client;
 	$message = ['to' =>$destination, 'messages' => [['type' => 'text', 'text' => $msg]]];
 	$client->pushMessage($message);
 }
 
 $messageText = "";
 
-if(php_sapi_name() == 'cli' && argv[1] == 'pve') {
+if(php_sapi_name() == 'cli' && $argv[1] == 'pve') {
 	$end = shell_exec("php " . __DIR__ . "/sheetclient.php !pveend");
 	$endDate = Carbon::createFromFormat('d/m/Y h:i:s', trim($end) . ' 06:00:00', new DateTimeZone('UTC'));
 
@@ -56,7 +57,7 @@ if(php_sapi_name() == 'cli' && argv[1] == 'pve') {
 	}
 }
 
-if(php_sapi_name() == 'cli' && argv[1] == 'pvpscreens') {
+if(php_sapi_name() == 'cli' && $argv[1] == 'pvpscreens') {
 	//nag for screenshots
 	$nagMessageText = 'Screenshots in the albums please folks :) (please ignore if you\'ve already put them in, I\'m not smart enough to know that)';
 	sendMessage( $CONF['COMMANDER_ROOM_ID'], $nagMessageText);
