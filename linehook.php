@@ -22,6 +22,9 @@ foreach ($client->parseEvents() as $event) {
                                 ]
                             ]
                         ]);
+                        if($message['text'] == '!debug') {
+                            error_log('event details: ' . print_r($event, true));
+                        }
                     }
                     break;
                 default:
