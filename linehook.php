@@ -12,24 +12,10 @@ foreach ($client->parseEvents() as $event) {
             $message = $event['message'];
             switch ($message['type']) {
                 case 'text':
-                    if(strpos($message['text'],'robo&:') == 0) {
-                        $client->replyMessage([
-                            'replyToken' => $event['replyToken'],
-                            'messages' => [
-                                [
-                                    'type' => 'text',
-                                    'text' => 'I used to do commands, but now I just send things automatically ;)'
-                                ]
-                            ]
-                        ]);
-                        if($message['text'] == 'robo&:debug') {
-                            error_log('event details: ' . print_r($event, true));
-                        }
-                    }
                     if(true /*isset($event['source']['groupId']) && $event['source']['groupId'] == $CONF['PVE_ROOM_ID']*/)
                     {
-                        var $matches = [];
-                        if(preg_match('/(.* )?(\d+k) (s[12345\?])( update)?$/', $message['text'], $matches) === true)
+                        $matches = [];
+                        if(preg_match('/(.* )?(\d+k) (s[12345\?])( update)?$/', $message['text'], $matches) == true)
                         {
                             $command = 'php ' . __DIR__ . '/sheetclient.php !pveupdate ';
                             $name = NULL;
