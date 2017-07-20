@@ -77,7 +77,7 @@ class LINEBotTiny
         $response = file_get_contents('https://api.line.me/v2/bot/message/reply', false, $context);
         if (strpos($http_response_header[0], '200') === false) {
             http_response_code(500);
-            error_log("reply Request failed: header code: " . $http_response_header[0] . "response:" . $response);
+            error_log("reply Request failed: header code: " . $http_response_header[0] . " response:" . $response);
         }
     }
     public function pushMessage($message)
@@ -96,7 +96,7 @@ class LINEBotTiny
         $response = file_get_contents('https://api.line.me/v2/bot/message/push', false, $context);
         if (strpos($http_response_header[0], '200') === false) {
             http_response_code(500);
-            error_log("push Request failed: header code: " . $http_response_header[0] . "response:" . $response);
+            error_log("push Request failed: header code: " . $http_response_header[0] . " response:" . $response);
         }
     }
     public function profile($userID)
@@ -107,14 +107,14 @@ class LINEBotTiny
         );
         $context = stream_context_create(array(
             "http" => array(
-                "method" => "POST",
+                "method" => "GET",
                 "header" => implode("\r\n", $header),
             ),
         ));
         $response = file_get_contents('https://api.line.me/v2/bot/profile/' . $userID, false, $context);
         if (strpos($http_response_header[0], '200') === false) {
             http_response_code(500);
-            error_log("profile Request failed: header code: " . $http_response_header[0] . "response:" . $response);
+            error_log("profile Request failed: header code: " . $http_response_header[0] . " response:" . $response);
         }
         return $response;
     }
