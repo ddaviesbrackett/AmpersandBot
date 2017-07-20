@@ -8,7 +8,7 @@ define('SHEETS_CLIENT_SECRET_PATH', __DIR__ . '/client_secret.json');
 // If modifying these scopes, delete your previously saved credentials
 // at SHEETS_CREDENTIALS_PATH (defined in config.php)
 define('SHEETS_SCOPES', implode(' ', array(
-  Google_Service_Sheets::SPREADSHEETS_READONLY)
+  Google_Service_Sheets::SPREADSHEETS)
 ));
 
 if (php_sapi_name() != 'cli') {
@@ -81,6 +81,7 @@ $commandtoRange = [
   ,'!pvemovelist' => 'Tally!C2:C'
   ,'!pvecall' => 'Instructions!A2'
   ,'!pveend' => 'Tally!E14'
+  //,!update is special-cased, below
 ];
 
 
@@ -96,6 +97,22 @@ if (array_key_exists($argv[1], $commandtoRange)) {
       printf("%s\n", $row[0]);
     }
   }
+} else if ($argv[1] == '!update'){
+  $range = 'RAW!B1';
+  $optParams=[
+    'valueInputOption' => 'USER_ENTERED'
+    ,'insertDataOption' => 'INSERT_ROWS'
+  ];
+  $requestBody = new Google_Service_Sheets_ValueRange(['values' => [[
+    date("d/m/y H:i:s")
+    , $argv[2]
+    , $argv[3]
+    , isset($argv[5])?$argv[5]:'?'
+    , $argv[4]
+    ,'?'
+  ]]]);
+  $response = $service->spreadsheets_values->append($spreadsheetId, $range, $requestBody, $optParams);
+
 } else {
   print "available !commands:\n" . implode("\n", array_keys($commandtoRange)) . "\n\nData is pulled from the Ampersand PVE signup google sheet, make changes to the data there.\n\n";
 }
