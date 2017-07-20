@@ -104,7 +104,7 @@ if (array_key_exists($argv[1], $commandtoRange)) {
     ,'insertDataOption' => 'INSERT_ROWS'
   ];
   $requestBody = new Google_Service_Sheets_ValueRange(['values' => [[
-    date("d/m/y H:i:s")
+    date("d/m/Y H:i:s")
     , $argv[2]
     , $argv[3]
     , isset($argv[5])?$argv[5]:'?'
