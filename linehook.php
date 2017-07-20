@@ -26,7 +26,7 @@ foreach ($client->parseEvents() as $event) {
                             else if( isset($event['source']['userId']))
                             {
                                 $profile = $client->profile($event['source']['userId']);
-                                if (isset($profile['displayName']) {
+                                if (isset($profile['displayName'])) {
                                     $name = $profile['displayName'];
                                 }
                             }
