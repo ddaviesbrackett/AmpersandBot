@@ -81,7 +81,7 @@ $commandtoRange = [
   ,'!pvemovelist' => 'Tally!C2:C'
   ,'!pvecall' => 'Instructions!A2'
   ,'!pveend' => 'Tally!E14'
-  //,!update is special-cased, below
+  //,!pveupdate is special-cased, below
 ];
 
 
@@ -97,7 +97,7 @@ if (array_key_exists($argv[1], $commandtoRange)) {
       printf("%s\n", $row[0]);
     }
   }
-} else if ($argv[1] == '!update'){
+} else if ($argv[1] == '!pveupdate'){
   $range = 'RAW!B1';
   $optParams=[
     'valueInputOption' => 'USER_ENTERED'
@@ -112,6 +112,7 @@ if (array_key_exists($argv[1], $commandtoRange)) {
     ,'?'
   ]]]);
   $response = $service->spreadsheets_values->append($spreadsheetId, $range, $requestBody, $optParams);
+  print "got it";
 
 } else {
   print "available !commands:\n" . implode("\n", array_keys($commandtoRange)) . "\n\nData is pulled from the Ampersand PVE signup google sheet, make changes to the data there.\n\n";

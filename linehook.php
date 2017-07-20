@@ -12,7 +12,7 @@ foreach ($client->parseEvents() as $event) {
             $message = $event['message'];
             switch ($message['type']) {
                 case 'text':
-                    if($message['text'][0] == '!') {
+                    if($message['text'][0] == 'robo&:') {
                         $client->replyMessage([
                             'replyToken' => $event['replyToken'],
                             'messages' => [
@@ -24,6 +24,52 @@ foreach ($client->parseEvents() as $event) {
                         ]);
                         if($message['text'] == '!debug') {
                             error_log('event details: ' . print_r($event, true));
+                        }
+                    }
+                    if(isset($event['source']['groupId']) && $event['source']['groupId'] == $CONF['PVE_ROOM_ID'])
+                    {
+                        var $matches = [];
+                        if(preg_match('/(.* )?(\d+k) (s[12345\?])( update)?$/', $message['text'], $matches) === true)
+                        {
+                            $command = 'php ' . __DIR__ . '/sheetclient.php !pveupdate ';
+                            $name = NULL;
+                            if(isset($matches[1]))
+                            {
+                                $name = $matches[1];
+                            }
+                            else if( isset($event['source']['userId']))
+                            {
+                                $response = $client->getProfile($event['source']['userId']);
+                                if ($response->isSucceeded()) {
+                                    $profile = $response->getJSONDecodedBody();
+                                    $name = $profile['displayName'];
+                                }
+                            }
+                            if($name == '')
+                            {
+                                $client->replyMessage([
+                                'replyToken' => $event['replyToken'],
+                                'messages' => [
+                                    [
+                                        'type' => 'text',
+                                        'text' => 'Sorry, didn\'t catch that - I don\'t know who you are :( friend me and try again please, or put your name in the message'
+                                    ]
+                                ]
+                            ]);
+                            }
+
+                            $score = $matches[2];
+                            $slice = $matches[3];
+                            $resp = shell_exec($command . ' ' . $name . ' ' . $score . ' ' . $slice);
+                            $client->replyMessage([
+                                'replyToken' => $event['replyToken'],
+                                'messages' => [
+                                    [
+                                        'type' => 'text',
+                                        'text' => 'Score recorded, @' . $name
+                                    ]
+                                ]
+                            ]);
                         }
                     }
                     break;
