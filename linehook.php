@@ -19,13 +19,13 @@ foreach ($client->parseEvents() as $event) {
                         {
                             $command = 'php ' . __DIR__ . '/sheetclient.php !pveupdate ';
                             $name = NULL;
-                            if(isset($matches[1]))
+                            if($matches[1] != '')
                             {
                                 $name = $matches[1];
                             }
                             else if( isset($event['source']['userId']))
                             {
-                                $response = $client->getProfile($event['source']['userId']);
+                                $response = $client->profile($event['source']['userId']);
                                 if ($response->isSucceeded()) {
                                     $profile = $response->getJSONDecodedBody();
                                     $name = $profile['displayName'];
@@ -34,14 +34,15 @@ foreach ($client->parseEvents() as $event) {
                             if($name == '')
                             {
                                 $client->replyMessage([
-                                'replyToken' => $event['replyToken'],
-                                'messages' => [
-                                    [
-                                        'type' => 'text',
-                                        'text' => 'Sorry, didn\'t catch that - I don\'t know who you are :( friend me and try again please, or put your name in the message'
+                                    'replyToken' => $event['replyToken'],
+                                    'messages' => [
+                                        [
+                                            'type' => 'text',
+                                            'text' => 'Sorry, didn\'t catch that - I don\'t know who you are :( friend me and try again please, or put your name in the message'
+                                        ]
                                     ]
-                                ]
-                            ]);
+                                ]);
+                                break;
                             }
 
                             $score = $matches[2];
