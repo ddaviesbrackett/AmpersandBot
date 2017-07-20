@@ -12,7 +12,7 @@ foreach ($client->parseEvents() as $event) {
             $message = $event['message'];
             switch ($message['type']) {
                 case 'text':
-                    if(true /*isset($event['source']['groupId']) && $event['source']['groupId'] == $CONF['PVE_ROOM_ID']*/)
+                    if(isset($event['source']['groupId']) && $event['source']['groupId'] == $CONF['PVE_ROOM_ID'])
                     {
                         $matches = [];
                         if(preg_match('/(.* )?(\d+k) (s[12345\?])( update)?$/', $message['text'], $matches) == true)
