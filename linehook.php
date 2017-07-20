@@ -26,8 +26,8 @@ foreach ($client->parseEvents() as $event) {
                             else if( isset($event['source']['userId']))
                             {
                                 $profile = $client->profile($event['source']['userId']);
-                                if (isset($profile['displayName'])) {
-                                    $name = $profile['displayName'];
+                                if (isset($profile->displayName)) {
+                                    $name = $profile->displayName;
                                 }
                             }
                             if($name == '')
@@ -46,7 +46,7 @@ foreach ($client->parseEvents() as $event) {
 
                             $score = $matches[2];
                             $slice = $matches[3];
-                            $resp = shell_exec($command . ' ' . $name . ' ' . $score . ' ' . $slice);
+                             $resp = shell_exec($command . ' "' . $name . '" "' . $score . '" "' . $slice . '"');
                             $out = $resp == "got it" ? 'Score recorded, @' . $name : 'something went wrong, go find Serrated';
                             $client->replyMessage([
                                     'replyToken' => $event['replyToken'],
