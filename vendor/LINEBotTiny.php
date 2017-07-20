@@ -116,7 +116,7 @@ class LINEBotTiny
             http_response_code(500);
             error_log("profile Request failed: header code: " . $http_response_header[0] . " response:" . $response);
         }
-        return $response;
+        return json_decode($response);
     }
     private function sign($body)
     {

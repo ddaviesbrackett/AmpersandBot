@@ -25,9 +25,8 @@ foreach ($client->parseEvents() as $event) {
                             }
                             else if( isset($event['source']['userId']))
                             {
-                                $response = $client->profile($event['source']['userId']);
-                                if ($response->isSucceeded()) {
-                                    $profile = $response->getJSONDecodedBody();
+                                $profile = $client->profile($event['source']['userId']);
+                                if (isset($profile['displayName']) {
                                     $name = $profile['displayName'];
                                 }
                             }
