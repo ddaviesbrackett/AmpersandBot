@@ -15,7 +15,7 @@ foreach ($client->parseEvents() as $event) {
                     if(isset($event['source']['groupId']) && $event['source']['groupId'] == $CONF['PVE_ROOM_ID'])
                     {
                         $matches = [];
-                        if(preg_match('/(.* )?(\d+k) (s[12345\?])( update)?$/', $message['text'], $matches) == true)
+                         if(preg_match('/^(.* )?(\d+k) +(s[12345\?])( +update)?$/', trim($message['text']), $matches) == true)
                         {
                             $command = 'php ' . __DIR__ . '/sheetclient.php !pveupdate ';
                             $name = NULL;
@@ -46,7 +46,7 @@ foreach ($client->parseEvents() as $event) {
 
                             $score = $matches[2];
                             $slice = $matches[3];
-                             $resp = shell_exec($command . ' "' . $name . '" "' . $score . '" "' . $slice . '"');
+                            $resp = shell_exec($command . ' "' . $name . '" "' . $score . '" "' . $slice . '"');
                             $out = $resp == "got it" ? 'Score recorded, @' . $name : 'something went wrong, go find Serrated';
                             $client->replyMessage([
                                     'replyToken' => $event['replyToken'],
@@ -63,6 +63,26 @@ foreach ($client->parseEvents() as $event) {
                 default:
                     break;
             }
+            $source = $event['source'];
+            if(isset($event['source']['groupId']) && $event['source']['groupId'] == $CONF['DEBUG_ROOM_ID'])
+            {
+                $profile = $client->profile($event['source']['userId']);
+                error_log('got a message from user ID ' . $event['source']['userId'] . ', displayName '.$profile->displayName.' message '.$message['text']);
+
+                $client->replyMessage([
+                    'replyToken' => $event['replyToken'],
+                    'messages' => [
+                        [
+                            'type' => 'text',
+                            'text' => 'from user ID:'. $event['source']['userId'] . '
+                                echoing: '.$message['text'] .'
+                                displayName: '. $profile->displayName
+                            ]
+                        ]
+                    ]);
+
+             }
+
             break;
         case 'join':
             $source = $event['source'];
