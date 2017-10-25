@@ -15,7 +15,7 @@ foreach ($client->parseEvents() as $event) {
                     if(isset($event['source']['groupId']) && $event['source']['groupId'] == $CONF['PVE_ROOM_ID'])
                     {
                         $matches = [];
-                         if(preg_match('/^(.* )?(\d+k) +(s[12345\?])( *(\+|plus )grind)?$/', trim($message['text']), $matches) == true)
+                        if(preg_match('/^(.* )?(\d+k) *((\+( +)?|plus )grind)? +(s[12345\?])$/', trim($message['text']), $matches) == true)
                         {
                             $command = 'php ' . __DIR__ . '/sheetclient.php !pveupdate ';
                             $name = NULL;
