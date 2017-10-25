@@ -45,8 +45,8 @@ foreach ($client->parseEvents() as $event) {
                             }
 
                             $score = $matches[2];
-                            $slice = $matches[3];
-                            $grind = isset($matches[4])?"y":"n";
+                            $slice = $matches[6];
+                            $grind = isset($matches[3])?"y":"n"; # 2                3               4                  5
                             $resp = shell_exec($command . ' "' . $name . '" "' . $score . '" "' . $slice . '" "' . $grind . '"');
                             $out = $resp == "got it" ? 'Score recorded, @' . $name : 'something went wrong, go find Serrated';
                             $client->replyMessage([

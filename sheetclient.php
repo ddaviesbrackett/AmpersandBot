@@ -107,10 +107,10 @@ if (array_key_exists($argv[1], $commandtoRange)) {
     date("d/m/Y H:i:s")
     , $argv[2]
     , $argv[3]
-    , isset($argv[5])?$argv[5]:'?'
+    , '?'
     , $argv[4]
     , '?'
-    , isset($argv[6])?$argv[6]:'?'
+    , isset($argv[5])?$argv[5]:'?'
   ]]]);
   $response = $service->spreadsheets_values->append($spreadsheetId, $range, $requestBody, $optParams);
   print "got it";
