@@ -80,7 +80,7 @@ $commandtoRange = [
   '!pvelist' => 'Tally!A2:A'
   ,'!pvemovelist' => 'Tally!C2:C'
   ,'!pvecall' => 'Instructions!A2'
-  ,'!pveend' => 'Tally!E14'
+  ,'!pveend' => 'Tally!E16'
   //,!pveupdate is special-cased, below
 ];
 
@@ -109,7 +109,8 @@ if (array_key_exists($argv[1], $commandtoRange)) {
     , $argv[3]
     , isset($argv[5])?$argv[5]:'?'
     , $argv[4]
-    ,'?'
+    , '?'
+    , isset($argv[6])?$argv[6]:'?'
   ]]]);
   $response = $service->spreadsheets_values->append($spreadsheetId, $range, $requestBody, $optParams);
   print "got it";
