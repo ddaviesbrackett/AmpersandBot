@@ -67,4 +67,12 @@ if(php_sapi_name() == 'cli' && $argv[1] == 'pvpscreens') {
 	sendMessage( $CONF['BETA_ROOM_ID'], $nagMessageText);
 	sendMessage( $CONF['GAMMA_ROOM_ID'], $nagMessageText);
 }
+
+if(php_sapi_name() == 'cli' && $argv[1] == 'pvplateclimbers') {
+	//nag for screenshots
+	$nagMessageText = 'PVP ends in 4 hours - late climbers get ready! :)';
+	sendMessage( $CONF['ALPHA_ROOM_ID'], $nagMessageText);
+	sendMessage( $CONF['BETA_ROOM_ID'], $nagMessageText);
+	sendMessage( $CONF['GAMMA_ROOM_ID'], $nagMessageText);
+}
 ?>
