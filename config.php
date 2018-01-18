@@ -7,6 +7,7 @@ $CONF=['AMPERBOT_CHANNEL_ACCESS'=>'',
  'BETA_ROOM_ID' => '',
  'GAMMA_ROOM_ID' => '',
  'DEBUG_ROOM_ID' => '',
+ 'LATECLIMBER_ROOM_ID' => '',
 ];
 
 define('SHEETS_CREDENTIALS_PATH', '~/.credentials/sheets.googleapis.com-php-quickstart.json');

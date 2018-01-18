@@ -74,5 +74,6 @@ if(php_sapi_name() == 'cli' && $argv[1] == 'pvplateclimbers') {
 	sendMessage( $CONF['ALPHA_ROOM_ID'], $nagMessageText);
 	sendMessage( $CONF['BETA_ROOM_ID'], $nagMessageText);
 	sendMessage( $CONF['GAMMA_ROOM_ID'], $nagMessageText);
+	sendMessage( $CONF['LATECLIMBER_ROOM_ID'], $nagMessageText);
 }
 ?>
