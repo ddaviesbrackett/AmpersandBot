@@ -15,7 +15,7 @@ foreach ($client->parseEvents() as $event) {
                     if(isset($event['source']['groupId']) && $event['source']['groupId'] == $CONF['PVE_ROOM_ID'])
                     {
                         $matches = [];
-                        if(preg_match('/^(.* )?(\d+[Kk]) *((\+( +)?|plus )grind)? +(s[12345\?])$/', trim($message['text']), $matches) == true)
+                        if(preg_match('/^(.* )?(\d+[Kk]) *((\+( +)?|plus )grind)? +([sS][12345\?])$/', trim($message['text']), $matches) == true)
                         {
                             $command = 'php ' . __DIR__ . '/sheetclient.php !pveupdate ';
                             $name = NULL;
@@ -45,7 +45,7 @@ foreach ($client->parseEvents() as $event) {
                             }
 
                             $score = mb_strtolower($matches[2]);
-                            $slice = $matches[6];
+                            $slice = mb_strtolower($matches[6]);
                             $grind = $matches[3] != ""?"y":"n"; # 2                3               4                  5
                             $resp = shell_exec($command . ' "' . $name . '" "' . $score . '" "' . $slice . '" "' . $grind . '"');
                             $out = $resp == "got it" ? 'Score recorded, @' . $name : 'something went wrong, go find Serrated';
