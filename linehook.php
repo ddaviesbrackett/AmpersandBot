@@ -48,7 +48,7 @@ foreach ($client->parseEvents() as $event) {
                             $slice = mb_strtolower($matches[6]);
                             $grind = $matches[3] != ""?"y":"n"; # 2                3               4                  5
                             $resp = shell_exec($command . ' "' . $name . '" "' . $score . '" "' . $slice . '" "' . $grind . '"');
-                            $out = $resp == "got it" ? 'Score recorded, @' . $name : 'something went wrong, go find Serrated';
+                            $out = strpos($resp, "got it") !== false ? 'Score recorded, @' . $name : 'something went wrong, go find Serrated';
                             $client->replyMessage([
                                     'replyToken' => $event['replyToken'],
                                     'messages' => [
