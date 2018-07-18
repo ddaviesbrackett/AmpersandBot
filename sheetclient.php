@@ -122,15 +122,15 @@ if (array_key_exists($argv[1], $commandtoRange)) {
 
   $toDelete = new Google_Service_Sheets_DeleteDimensionRequest();
   $rangeToDelete = new Google_Service_Sheets_DimensionRange();
-  $rangeToDelete->setStartIndex(3);
+  $rangeToDelete->setStartIndex(2);
   $rangeToDelete->setEndIndex(1000);
   $rangeToDelete->setDimension('ROWS');
   $rangeToDelete->setSheetId(290611295); //just a magic number, determined from inspection of the URL of the sheet - TODO move to config
   
   $toDelete->setRange($rangeToDelete);
 
-  $requestBody->setRequests([$toDelete]);
-  $service->spreadsheets->batchUpdate($spreadsheetId, $requestBody)
+  $requestBody->setRequests(['deleteDimension'=>$toDelete]);
+  $service->spreadsheets->batchUpdate($spreadsheetId, $requestBody);
 } else {
   print "available !commands:\n" . implode("\n", array_keys($commandtoRange)) . "\n\nData is pulled from the Ampersand PVE signup google sheet, make changes to the data there.\n\n";
 }
