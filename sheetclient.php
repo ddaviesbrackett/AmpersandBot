@@ -131,6 +131,7 @@ if (array_key_exists($argv[1], $commandtoRange)) {
 
   $requestBody->setRequests(['deleteDimension'=>$toDelete]);
   $service->spreadsheets->batchUpdate($spreadsheetId, $requestBody);
+  print "got it";
 } else {
   print "available !commands:\n" . implode("\n", array_keys($commandtoRange)) . "\n\nData is pulled from the Ampersand PVE signup google sheet, make changes to the data there.\n\n";
 }
