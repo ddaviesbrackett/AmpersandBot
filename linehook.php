@@ -12,6 +12,7 @@ foreach ($client->parseEvents() as $event) {
             $message = $event['message'];
             switch ($message['type']) {
                 case 'text':
+                    $out = '';
                     if(isset($event['source']['groupId']) && $event['source']['groupId'] == $CONF['PVE_ROOM_ID'])
                     {
                         $matches = [];
@@ -49,16 +50,29 @@ foreach ($client->parseEvents() as $event) {
                             $grind = $matches[3] != ""?"y":"n"; # 2                3               4                  5
                             $resp = shell_exec($command . ' "' . $name . '" "' . $score . '" "' . $slice . '" "' . $grind . '"');
                             $out = strpos($resp, "got it") !== false ? 'Score recorded, @' . $name : 'something went wrong, go find Serrated';
-                            $client->replyMessage([
-                                    'replyToken' => $event['replyToken'],
-                                    'messages' => [
-                                        [
-                                            'type' => 'text',
-                                            'text' => $out
-                                        ]
-                                    ]
-                                ]);
+                            
                         }
+                    }
+                    else if(isset($event['source']['groupId']) && $event['source']['groupId'] == $CONF['COMMANDER_ROOM_ID'])
+                    {
+                        if(trim($message['text']) == '!pvedelete')
+                        {
+                            $command = 'php ' . __DIR__ . '/sheetclient.php !pvedelete ';
+                            $resp = shell_exec($command);
+                            $out = strpos($resp, "got it") !== false ? 'raw scores deleted' : 'something went wrong, go find Serrated';
+                        }
+                    }
+
+                    if(!empty($out)){
+                        $client->replyMessage([
+                                'replyToken' => $event['replyToken'],
+                                'messages' => [
+                                    [
+                                        'type' => 'text',
+                                        'text' => $out
+                                    ]
+                                ]
+                            ]);
                     }
                     break;
                 default:

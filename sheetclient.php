@@ -74,7 +74,7 @@ function expandHomeDirectory($path) {
 $client = getClient();
 $service = new Google_Service_Sheets($client);
 
-$spreadsheetId = '1dVKnX-UWp7AD5CBubj7_rpeM_swsfwKgu0zRRAIFcIE';
+$spreadsheetId = '1dVKnX-UWp7AD5CBubj7_rpeM_swsfwKgu0zRRAIFcIE'; //just a magic number, determined from inspection of the URL of the sheet - TODO move to config
 
 $commandtoRange = [
   '!pvelist' => 'Tally!A2:A'
@@ -82,6 +82,7 @@ $commandtoRange = [
   ,'!pvecall' => 'Instructions!A2'
   ,'!pveend' => 'Tally!E16'
   //,!pveupdate is special-cased, below
+  //,!pvedelete is special-cased, below
 ];
 
 
@@ -115,6 +116,21 @@ if (array_key_exists($argv[1], $commandtoRange)) {
   $response = $service->spreadsheets_values->append($spreadsheetId, $range, $requestBody, $optParams);
   print "got it";
 
+} else if ($argv[1] == '!pvedelete'){
+  $requestBody = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest();
+  $requestBody->setIncludeSpreadsheetInResponse(false);
+
+  $toDelete = new Google_Service_Sheets_DeleteDimensionRequest();
+  $rangeToDelete = new Google_Service_Sheets_DimensionRange();
+  $rangeToDelete->setStartIndex(3);
+  $rangeToDelete->setEndIndex(1000);
+  $rangeToDelete->setDimension('ROWS');
+  $rangeToDelete->setSheetId(290611295); //just a magic number, determined from inspection of the URL of the sheet - TODO move to config
+  
+  $toDelete->setRange($rangeToDelete);
+
+  $requestBody->setRequests([$toDelete]);
+  $service->spreadsheets->batchUpdate($spreadsheetId, $requestBody)
 } else {
   print "available !commands:\n" . implode("\n", array_keys($commandtoRange)) . "\n\nData is pulled from the Ampersand PVE signup google sheet, make changes to the data there.\n\n";
 }
