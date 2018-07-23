@@ -36,6 +36,14 @@ if(php_sapi_name() == 'cli' && $argv[1] == 'pve') {
 		$messageText = $messageText . "\n\nMove list will be published about " . $endDate->subHours(12)->diffForHumans() . '.'
 									. "\nUpdate your score whenever you want!";
 		$roomId = $CONF['PVE_ROOM_ID'];
+
+		if($diffInHours == -15)
+		{
+			$nagMessageText = "PVE move call in 3 hours - time to get those scores in!!";
+			sendMessage( $CONF['ALPHA_ROOM_ID'], $nagMessageText);
+			sendMessage( $CONF['BETA_ROOM_ID'], $nagMessageText);
+			sendMessage( $CONF['GAMMA_ROOM_ID'], $nagMessageText);
+		}
 	}
 	else if ($diffInHours == -12)
 	{
