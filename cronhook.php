@@ -71,9 +71,9 @@ if(php_sapi_name() == 'cli' && $argv[1] == 'pvpscreens') {
 	//nag for screenshots
 	$nagMessageText = 'Screenshots in the albums please folks :) (please ignore if you\'ve already put them in, I\'m not smart enough to know that)';
 	sendMessage( $CONF['COMMANDER_ROOM_ID'], $nagMessageText);
-	sendMessage( $CONF['ALPHA_ROOM_ID'], $nagMessageText);
+	/*sendMessage( $CONF['ALPHA_ROOM_ID'], $nagMessageText);
 	sendMessage( $CONF['BETA_ROOM_ID'], $nagMessageText);
-	sendMessage( $CONF['GAMMA_ROOM_ID'], $nagMessageText);
+	sendMessage( $CONF['GAMMA_ROOM_ID'], $nagMessageText);*/
 }
 
 if(php_sapi_name() == 'cli' && $argv[1] == 'pvplateclimbers') {
