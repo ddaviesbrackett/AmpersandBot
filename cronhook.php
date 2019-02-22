@@ -33,7 +33,7 @@ if(php_sapi_name() == 'cli' && $argv[1] == 'pve') {
 	else if ($diffInHours > -36 && $diffInHours < -8)
 	{
 		$messageText = shell_exec("php " . __DIR__ . "/sheetclient.php !pvelist"); //inside 36h, outside 8h, publish the tally
-		$messageText = $messageText . "\n\nMove list will be published about " . $endDate->subHours(8)->diffForHumans() . '.'
+		$messageText = $messageText . "\n\nMove list will be published about " . $endDate->subHours(12)->diffForHumans() . '.'
 									. "\nUpdate your score whenever you want!";
 		$roomId = $CONF['PVE_ROOM_ID'];
 
