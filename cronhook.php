@@ -30,14 +30,14 @@ if(php_sapi_name() == 'cli' && $argv[1] == 'pve') {
 		$messageText = shell_exec("php " . __DIR__ . "/sheetclient.php !pvecall"); //36h: time for the call
 		$roomId = $CONF['PVE_ROOM_ID'];
 	}
-	else if ($diffInHours > -36 && $diffInHours < -8)
+	else if ($diffInHours > -36 && $diffInHours < -12)
 	{
-		$messageText = shell_exec("php " . __DIR__ . "/sheetclient.php !pvelist"); //inside 36h, outside 8h, publish the tally
+		$messageText = shell_exec("php " . __DIR__ . "/sheetclient.php !pvelist"); //inside 36h, outside 12h, publish the tally
 		$messageText = $messageText . "\n\nMove list will be published about " . $endDate->subHours(12)->diffForHumans() . '.'
 									. "\nUpdate your score whenever you want!";
 		$roomId = $CONF['PVE_ROOM_ID'];
 
-		if($diffInHours == -11)
+		if($diffInHours == -15)
 		{
 			$nagMessageText = "PVE move call in 3 hours - time to get those scores in!!";
 			sendMessage( $CONF['ALPHA_ROOM_ID'], $nagMessageText);
@@ -45,7 +45,7 @@ if(php_sapi_name() == 'cli' && $argv[1] == 'pve') {
 			sendMessage( $CONF['GAMMA_ROOM_ID'], $nagMessageText);
 		}
 	}
-	else if ($diffInHours == -8)
+	else if ($diffInHours == -12)
 	{
 		$messageText = shell_exec("php " . __DIR__ . "/sheetclient.php !pvemovelist"); //12h: time for the move list
 		$roomId = $CONF['PVE_ROOM_ID'];
